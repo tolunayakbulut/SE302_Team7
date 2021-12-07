@@ -1,0 +1,1 @@
+The application will not require any log in. Because of this when user runs the program, user will see the following options create a new family tree, open an existing tree and join two family trees together and these options will provide user the servies as follows, edit family member/tree, display a tree, display family member.
