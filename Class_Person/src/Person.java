@@ -12,7 +12,7 @@ public class Person {
 
     Person mother,father,child,spouse;
 
-    enum Relation{
+    enum Relation {
         mother,father,child,spouse,uncle,aunt;
     }
 
@@ -151,7 +151,7 @@ public class Person {
     public void relationCalculator(Person refPer) {
         System.out.println("mother name "+refPer.getMother().getName());
         System.out.println("father name "+refPer.getFather().getName());
-        System.out.println("spouse name "+refPer.getSpouse().getName());
+        //System.out.println("spouse name "+refPer.getSpouse().getName());
         System.out.println("Children name ");
         for(int i=0; i<refPer.children.size();i++) {
             System.out.println(children.get(i).getName());
