@@ -149,12 +149,23 @@ public class Person {
     }
 
     public void relationCalculator(Person refPer) {
-        System.out.println("mother name "+refPer.getMother().getName());
-        System.out.println("father name "+refPer.getFather().getName());
-        //System.out.println("spouse name "+refPer.getSpouse().getName());
-        System.out.println("Children name ");
-        for(int i=0; i<refPer.children.size();i++) {
-            System.out.println(children.get(i).getName());
+
+        System.out.println("mother name: "+refPer.getMother().getName());
+        System.out.println("father name: "+refPer.getFather().getName());
+
+        try {
+            System.out.println("spouse name: "+refPer.getSpouse().getName());
+        } catch (Exception e) {
+            System.out.println("spouse name: " + refPer.getName() + "has not a spouse!");
+        }
+
+        try {
+            System.out.println("Children name: ");
+            for(int i=0; i<refPer.children.size();i++) {
+                System.out.println(children.get(i).getName());
+            }
+        } catch (Exception e) {
+            System.out.println(refPer.getName() + "has not a child!");
         }
 
         System.out.println("Uncle or uncles name: ");
