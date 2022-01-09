@@ -135,16 +135,16 @@ public class Person {
     }
 
     //a method to add mother father children and spouse.
-    public void addMother(Person pMother, Person pPerson) {
+    public static void addMother(Person pMother, Person pPerson) {
         pPerson.setMother(pMother);
     }
-    public void addFather(Person pFather, Person pPerson) {
+    public static  void addFather(Person pFather, Person pPerson) {
         pPerson.setFather(pFather);
     }
-    public void addSpouse(Person pSpouse, Person pPerson) {
+    public static void addSpouse(Person pSpouse, Person pPerson) {
         pPerson.setSpouse(pSpouse);
     }
-    public void addChildren(Person pChildren, Person pPerson) {
+    public static void addChildren(Person pChildren, Person pPerson) {
         pPerson.children.add(pChildren);
     }
 
@@ -169,12 +169,24 @@ public class Person {
         }
 
         System.out.println("Uncle or uncles name: ");
-        for(int i=0;i<refPer.getFather().children.size();i++) {
-            System.out.println(refPer.getFather().children.get(i).getName());
+        for(int i=0;i<refPer.getFather().getFather().children.size();i++) {
+            System.out.println(refPer.getFather().getFather().children.get(i).getName());
+        }
+    }
+
+    public static void relationMatcher(Person refPer, Person toBeAdded) {
+        if(refPer.getMother()==toBeAdded) {
+            addChildren(refPer,toBeAdded);
+        }
+        if(refPer.getFather()==toBeAdded) {
+             addChildren(refPer,toBeAdded);
+         }
+        if(refPer.getSpouse()==toBeAdded) {
+            addSpouse(refPer,toBeAdded);
         }
 
-
     }
+
 
 
 
