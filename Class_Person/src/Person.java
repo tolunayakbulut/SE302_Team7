@@ -165,12 +165,16 @@ public class Person {
                 System.out.println(children.get(i).getName());
             }
         } catch (Exception e) {
-            System.out.println(refPer.getName() + "has not a child!");
+            System.out.println(refPer.getName() + "has not got a child!");
         }
 
-        System.out.println("Uncle or uncles name: ");
-        for(int i=0;i<refPer.getFather().getFather().children.size();i++) {
-            System.out.println(refPer.getFather().getFather().children.get(i).getName());
+        try {
+            System.out.println("Uncle or uncles name: ");
+            for(int i=0;i<refPer.getFather().getFather().children.size();i++) {
+                System.out.println(refPer.getFather().getFather().children.get(i).getName());
+            }
+        } catch (Exception e) {
+            System.out.println(refPer.getName() + "has not got an uncle!");
         }
     }
 
