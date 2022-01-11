@@ -96,7 +96,8 @@ public class Person {
     //endregion
 
 
-    //in case of reference person having multiple children.
+
+
 
     public void relationFinder(Person refPer) {
         System.out.println("Mother name: " + refPer.getMother().getName());
@@ -145,13 +146,15 @@ public class Person {
 
     public void relationCalculator(Person refPer) {
 
+        System.out.println("--------------------------------------------------------------");
         System.out.println("mother name: "+refPer.getMother().getName());
         System.out.println("father name: "+refPer.getFather().getName());
 
+        //spouse.
         try {
             System.out.println("spouse name: "+refPer.getSpouse().getName());
         } catch (Exception e) {
-            System.out.println("spouse name: " + refPer.getName() + "has not a spouse!");
+            System.out.println("spouse name: " +refPer.getName()+ " is single.");
         }
 
         try {
@@ -162,13 +165,35 @@ public class Person {
         } catch (Exception e) {
             System.out.println(refPer.getName() + "has not got a child!");
         }
-
         System.out.println("--------------------------------------------------------------");
+
+        //Siblings
+        try{
+            System.out.println("Sibling/s names: ");
+            for(int i=0;i<refPer.getFather().children.size();i++) {
+                if(refPer.getFather().children.get(i)==refPer) {
+                    //If the element in the array is the reference person then do nothing
+                }
+                else {
+                System.out.println(refPer.getFather().children.get(i).getName());
+                }
+            }
+        }catch (Exception e) {
+            System.out.println(refPer.getName() +"Hasn't got any sisters or brothers");
+        }
+        System.out.println("--------------------------------------------------------------");
+
+        //Amca
         try {
             System.out.println("Father's side/Uncle or uncles name: ");
             for(int i=0;i<refPer.getFather().getFather().children.size();i++) {
                 if(refPer.getFather().getFather().children.get(i).isMale==true) {
+                    if(refPer.getFather().getFather().children.get(i)==refPer.getFather()) {
+                        //Do nothing
+                    }
+                    else {
                     System.out.println(refPer.getFather().getFather().children.get(i).getName());
+                    }
                 }
             }
         } catch (Exception e) {
@@ -177,11 +202,12 @@ public class Person {
         System.out.println("--------------------------------------------------------------");
 
 
+        //Hala
         try {
-            System.out.println("Father's side/ aunt name: ");
+            System.out.println("Father's side/ aunt or aunts name: ");
             for(int i=0;i<refPer.getFather().getFather().children.size();i++) {
                 if(refPer.getFather().getFather().children.get(i).isMale==false) {
-                    System.out.println(refPer.getFather().getFather().children.get(i));
+                    System.out.println(refPer.getFather().getFather().children.get(i).getName());
                 }
             }
         }catch (Exception e) {
@@ -189,6 +215,7 @@ public class Person {
         }
         System.out.println("--------------------------------------------------------------");
 
+        //Dayı
         try {
             System.out.println("Mother's side/ uncle name: ");
             for(int i=0;i<refPer.getMother().getFather().children.size();i++) {
@@ -201,11 +228,17 @@ public class Person {
         }
         System.out.println("--------------------------------------------------------------");
 
+        //Teyze
         try {
             System.out.println(refPer.getName()+"Mother's side aunt name. ");
             for(int i=0;i<refPer.getMother().getFather().children.size();i++) {
                 if(refPer.getMother().getFather().children.get(i).isMale==false) {
+                    if(refPer.getMother().getFather().children.get(i)==refPer.getMother()) {
+                        //If the element is the reference person's mother then do nothing.
+                    }
+                    else {
                     System.out.println(refPer.getMother().getFather().children.get(i).getName());
+                    }
                 }
             }
         }catch (Exception e) {
