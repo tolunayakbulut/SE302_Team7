@@ -6,33 +6,28 @@ public class Person {
     String surname;
     float ID;
     float birthDate;
-    int gender;
+    boolean isMale;
 
-    /*These relation definitions need to be defined, but also they need to refer a person*/
 
     Person mother,father,child,spouse;
-
-    enum Relation {
-        mother,father,child,spouse,uncle,aunt;
-    }
+    ArrayList<Person> children=new ArrayList<Person>();
 
     Scanner input=new Scanner(System.in);
 
-
     //constructor
-    public Person(String pName, String pSurname, float pID, float pBirthDate, int pGender) {
+    public Person(String pName, String pSurname, float pID, float pBirthDate, boolean isMale) {
         setName(pName);
         setSurname(pSurname);
         setID(pID);
         setBirthDate(pBirthDate);
-        setGender(pGender);
+        setMale(isMale);
     }
     public Person() {
         setName("not given");
         setSurname("not given");
         setID(0);
         setBirthDate(0);
-        setGender(0);
+        setMale(false);
     }
 
     //region getters and setters
@@ -60,11 +55,11 @@ public class Person {
     public void setBirthDate(float pBirthDate) {
         birthDate=pBirthDate;
     }
-    public int getGender() {
-        return gender;
+    public boolean isMale() {
+        return isMale;
     }
-    public void setGender(int gender) {
-        this.gender = gender;
+    public void setMale(boolean male) {
+        isMale = male;
     }
 
     public Person getMother() {
@@ -100,7 +95,7 @@ public class Person {
     }
     //endregion
 
-    ArrayList<Person> children=new ArrayList<Person>();
+
     //in case of reference person having multiple children.
 
     public void relationFinder(Person refPer) {
@@ -117,7 +112,7 @@ public class Person {
     public Person personCreator() {
         String pName, pSurname;
         float ID, birthDate;
-        int gender;
+        boolean isMale;
 
         System.out.println("Enter name: ");
         pName=input.next();
@@ -128,9 +123,9 @@ public class Person {
         System.out.println("Enter birthdate: ");
         birthDate=input.nextFloat();
         System.out.println("Enter gender: ");
-        gender=input.nextInt();
+        isMale=input.nextBoolean();
 
-        return new Person(pName,pSurname,ID,birthDate,gender);
+        return new Person(pName,pSurname,ID,birthDate,isMale);
 
     }
 
@@ -168,33 +163,81 @@ public class Person {
             System.out.println(refPer.getName() + "has not got a child!");
         }
 
+        System.out.println("--------------------------------------------------------------");
         try {
-            System.out.println("Uncle or uncles name: ");
+            System.out.println("Father's side/Uncle or uncles name: ");
             for(int i=0;i<refPer.getFather().getFather().children.size();i++) {
-                System.out.println(refPer.getFather().getFather().children.get(i).getName());
+                if(refPer.getFather().getFather().children.get(i).isMale==true) {
+                    System.out.println(refPer.getFather().getFather().children.get(i).getName());
+                }
             }
         } catch (Exception e) {
             System.out.println(refPer.getName() + "has not got an uncle!");
         }
+        System.out.println("--------------------------------------------------------------");
+
+
+        try {
+            System.out.println("Father's side/ aunt name: ");
+            for(int i=0;i<refPer.getFather().getFather().children.size();i++) {
+                if(refPer.getFather().getFather().children.get(i).isMale==false) {
+                    System.out.println(refPer.getFather().getFather().children.get(i));
+                }
+            }
+        }catch (Exception e) {
+            System.out.println(refPer.getName()+"hasn't got an aunt.(Father's side) ");
+        }
+        System.out.println("--------------------------------------------------------------");
+
+        try {
+            System.out.println("Mother's side/ uncle name: ");
+            for(int i=0;i<refPer.getMother().getFather().children.size();i++) {
+                if(refPer.getMother().getFather().children.get(i).isMale==true) {
+                    System.out.println(refPer.getMother().getFather().children.get(i).getName());
+                }
+            }
+        }catch (Exception e) {
+            System.out.println("hasn't got an uncle. (mother's side)");
+        }
+        System.out.println("--------------------------------------------------------------");
+
+        try {
+            System.out.println(refPer.getName()+"Mother's side aunt name. ");
+            for(int i=0;i<refPer.getMother().getFather().children.size();i++) {
+                if(refPer.getMother().getFather().children.get(i).isMale==false) {
+                    System.out.println(refPer.getMother().getFather().children.get(i).getName());
+                }
+            }
+        }catch (Exception e) {
+            System.out.println(refPer.getName()+"hasn't got an aunt (mothers side). ");
+        }
+        System.out.println("--------------------------------------------------------------");
     }
+
+
 
     public static void relationMatcher(Person refPer, Person toBeAdded) {
         if(refPer.getMother()==toBeAdded) {
             addChildren(refPer,toBeAdded);
         }
         if(refPer.getFather()==toBeAdded) {
-             addChildren(refPer,toBeAdded);
-         }
+            addChildren(refPer,toBeAdded);
+        }
         if(refPer.getSpouse()==toBeAdded) {
             addSpouse(refPer,toBeAdded);
         }
+        for(int i=0;i<refPer.children.size();i++) {
+            if(refPer.children.get(i)==toBeAdded) {//this if section may have faults.
+                if(refPer.isMale==true) {//if father
+                    addFather(refPer,refPer.children.get(i));
+                }
+                else {//if mother
+                    addMother(refPer,refPer.children.get(i));
+                }
+            }
+        }
 
     }
-
-
-
-
-
 
 
 }
