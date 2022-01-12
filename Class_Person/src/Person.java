@@ -201,7 +201,6 @@ public class Person {
         }
         System.out.println("--------------------------------------------------------------");
 
-
         //Hala
         try {
             System.out.println("Father's side/ aunt or aunts name: ");
