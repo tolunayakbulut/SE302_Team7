@@ -185,6 +185,7 @@ public class Person {
 
         //Amca
         try {
+
             System.out.println("Father's side/Uncle or uncles name: ");
             for(int i=0;i<refPer.getFather().getFather().children.size();i++) {
                 if(refPer.getFather().getFather().children.get(i).isMale==true) {
@@ -195,6 +196,15 @@ public class Person {
                     System.out.println(refPer.getFather().getFather().children.get(i).getName());
                     }
                 }
+            }
+            int cntMale=0;
+            for(int i=0;i<refPer.getFather().getFather().children.size();i++){
+                if(refPer.getFather().getFather().children.get(i).isMale==true) {
+                    cntMale++;
+                }
+            }
+            if(cntMale==0) {
+                System.out.println("Doesn't have any uncles.");
             }
         } catch (Exception e) {
             System.out.println(refPer.getName() + "has not got an uncle!");
