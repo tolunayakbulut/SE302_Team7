@@ -80,7 +80,7 @@ public class  TreeUI  implements ActionListener {
         akrabaLabel.setBounds(1530,400,100,30);
         labelFontChanger(akrabaLabel);
         mainPage.add(akrabaLabel);
-        String []relatives={"Kendisi ","Annesi ","Babası ","Çocuğu ","Eşi "};
+        String []relatives={"Kendisi ","Annesi ","Babası ","Çocuğu ","Eşi ","Kardeşi "};
         cbAkraba=new JComboBox(relatives);
         cbAkraba.setBounds(1640,400,100,30);
         mainPage.add(cbAkraba);
@@ -101,9 +101,6 @@ public class  TreeUI  implements ActionListener {
         ekleB=new JButton("Kişi ekle ");
         ekleB.setBounds(1530,500,100,30);
         mainPage.add(ekleB);
-        kaldırB=new JButton("Kişi kaldır ");
-        kaldırB.setBounds(1640,500,100,30);
-        mainPage.add(kaldırB);
         ekleB.addActionListener(this::addPerson);
 
         //NOTE: The info box will be implemented here (The box that shows the info of a selected person.)
@@ -175,8 +172,19 @@ public class  TreeUI  implements ActionListener {
             spouse.add(upSpouse);
             model.nodeChanged(upSpouse);
             SwingUtilities.updateComponentTreeUI(mainPage);
+        }if(e.getSource()==ekleB&&(cbAkraba.getSelectedIndex()==5)) {//Relative field "Kardeşi" case
+            emptyBoxChecker();
+            DefaultTreeModel model=(DefaultTreeModel) famT.getModel();
+            DefaultMutableTreeNode upChild=new DefaultMutableTreeNode(tfIsim.getText()+" "+
+                    tfSoyisim.getText());//up child= updated children name.
+            siblings.add(upChild);
+            model.nodeChanged(upChild);
+            SwingUtilities.updateComponentTreeUI(mainPage);
         }
     }
+
+
+
 
     public void emptyBoxChecker() {//A method to check if the following boxes are empty or not in person addition.
         if(tfIsim.getText().equals("")) {//Isim box is empty case
