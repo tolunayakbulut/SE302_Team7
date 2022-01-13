@@ -4,12 +4,13 @@ import javax.swing.JLabel;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 
 public class  TreeUI  implements ActionListener {
 
     JFrame mainPage;
     JPanel panel;
-    JButton ekleB;
+    JButton ekleB, kaldırB;
     JTextField tfIsim, tfSoyisim, tfID, tfDy;
     JLabel isimLabel,soyisimLabel,IDLabel,dyLabel, cinsiyetLabel, akrabaLabel;
     JComboBox cbCinsiyet, cbAkraba;
@@ -75,7 +76,7 @@ public class  TreeUI  implements ActionListener {
         mainPage.add(cbCinsiyet);
 
         //Akrabalık
-        akrabaLabel=new JLabel("Cinsiyet: ");
+        akrabaLabel=new JLabel("Akrabalık: ");
         akrabaLabel.setBounds(1530,400,100,30);
         labelFontChanger(akrabaLabel);
         mainPage.add(akrabaLabel);
@@ -90,18 +91,22 @@ public class  TreeUI  implements ActionListener {
         famT.setBounds(40,50,1300,900);
         mother=new DefaultMutableTreeNode("Annesi");refPer.add(mother);
         father=new DefaultMutableTreeNode("Babası");refPer.add(father);
-        siblings=new DefaultMutableTreeNode("Kardeşleri");refPer.add(siblings);
         spouse=new DefaultMutableTreeNode("Eşi ");refPer.add(spouse);
         children=new DefaultMutableTreeNode("Çocukları ");refPer.add(children);
+        siblings=new DefaultMutableTreeNode("Kardeşleri");refPer.add(siblings);
         famT.setFont(new Font("Bold",Font.PLAIN,20));
         mainPage.add(famT);
 
+        //Button
+        ekleB=new JButton("Kişi ekle ");
+        ekleB.setBounds(1530,500,100,30);
+        mainPage.add(ekleB);
+        kaldırB=new JButton("Kişi kaldır ");
+        kaldırB.setBounds(1640,500,100,30);
+        mainPage.add(kaldırB);
+        ekleB.addActionListener(this::addPerson);
 
-
-
-
-
-
+        //NOTE: The info box will be implemented here (The box that shows the info of a selected person.)
 
 
 
@@ -120,25 +125,86 @@ public class  TreeUI  implements ActionListener {
         panel.setBackground(Color.LIGHT_GRAY);
         mainPage.add(panel);
 
+    }
 
-
-
+    public void actionPerformed(ActionEvent e) {
+        addPerson(e);
 
     }
 
-    public void actionPerformed(ActionEvent e) {}
+    public void addPerson(ActionEvent e) {
+        if(e.getSource()==ekleB && (cbAkraba.getSelectedIndex()==0)) {//Relative field "Kendisi" is empty case
+            emptyBoxChecker();
+            DefaultTreeModel model = (DefaultTreeModel) famT.getModel();
+            refPer.setUserObject(tfIsim.getText() + " " + tfSoyisim.getText()+"( Kendisi )");
+            model.nodeChanged(refPer);
+            SwingUtilities.updateComponentTreeUI(mainPage);
+        }
+        if(e.getSource()==ekleB&&(cbAkraba.getSelectedIndex()==1)) {//Relative field "annesi" case
+            emptyBoxChecker();
+            DefaultTreeModel model=(DefaultTreeModel) famT.getModel();
+            DefaultMutableTreeNode upMother=new DefaultMutableTreeNode(tfIsim.getText()+" "+
+                    tfSoyisim.getText());//up mother= updated mother name.
+            mother.add(upMother);
+            model.nodeChanged(mother);
+            SwingUtilities.updateComponentTreeUI(mainPage);
+        }
+        if(e.getSource()==ekleB&&(cbAkraba.getSelectedIndex()==2)) {//Relative field "babası" case
+            emptyBoxChecker();
+            DefaultTreeModel model=(DefaultTreeModel) famT.getModel();
+            DefaultMutableTreeNode upFather=new DefaultMutableTreeNode(tfIsim.getText()+" "+
+                    tfSoyisim.getText());//up father= updated father name.
+            father.add(upFather);
+            model.nodeChanged(upFather);
+            SwingUtilities.updateComponentTreeUI(mainPage);
+        }
+        if(e.getSource()==ekleB&&(cbAkraba.getSelectedIndex()==3)) {//Relative field "çocuğu" case
+            emptyBoxChecker();
+            DefaultTreeModel model=(DefaultTreeModel) famT.getModel();
+            DefaultMutableTreeNode upChild=new DefaultMutableTreeNode(tfIsim.getText()+" "+
+                    tfSoyisim.getText());//up child= updated children name.
+            children.add(upChild);
+            model.nodeChanged(children);
+            SwingUtilities.updateComponentTreeUI(mainPage);
+        }
+        if(e.getSource()==ekleB&&(cbAkraba.getSelectedIndex()==4)) {//Relative field "Eşi" case
+            emptyBoxChecker();
+            DefaultTreeModel model=(DefaultTreeModel) famT.getModel();
+            DefaultMutableTreeNode upSpouse=new DefaultMutableTreeNode(tfIsim.getText()+" "+
+                    tfSoyisim.getText());//up father= updated father name.
+            spouse.add(upSpouse);
+            model.nodeChanged(upSpouse);
+            SwingUtilities.updateComponentTreeUI(mainPage);
+        }
+    }
+
+    public void emptyBoxChecker() {//A method to check if the following boxes are empty or not in person addition.
+        if(tfIsim.getText().equals("")) {//Isim box is empty case
+            JOptionPane nameErr=new JOptionPane();
+            nameErr.showMessageDialog(null,"Ad eklenmedi. ");
+            throw new StringIndexOutOfBoundsException("uyarı ");
+        }
+        else if(tfSoyisim.getText().equals("")) {// Soyisim box is empty case
+            JOptionPane surnameErr=new JOptionPane();
+            surnameErr.showMessageDialog(null,"Soyad eklenmedi. ");
+            throw new StringIndexOutOfBoundsException("uyarı ");
+        }
+        else if(tfID.getText().equals("")) {
+            JOptionPane IDErr=new JOptionPane();
+            IDErr.showMessageDialog(null,"ID eklenmedi ");
+            throw new StringIndexOutOfBoundsException("uyarı ");
+        }
+        else {
+            JOptionPane added=new JOptionPane();
+            added.showMessageDialog(null,"Kişi eklenmiştir.");
+        }
+    }
 
 
     public static void main(String[]args) {
 
         new TreeUI();
 
-
-
-
     }
-
-
-
 
 }
